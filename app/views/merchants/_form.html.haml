@@ -1,0 +1,28 @@
+= form_for @merchant do |f|
+  - if @merchant.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@merchant.errors.count, "error")} prohibited this merchant from being saved:"
+      %ul
+        - @merchant.errors.full_messages.each do |message|
+          %li= message
+
+  .field.mb-3
+    = f.label :name, class: "form-label"
+    = f.text_field :name, class: "form-control"
+  .field.mb-3
+    = f.label :description, class: "form-label"
+    = f.text_area :description, class: "form-control"
+  .field.mb-3
+    = f.label :email, class: "form-label"
+    = f.text_field :email, class: "form-control"
+  .field.mb-3
+    = f.label :admin, class: "form-label"
+    = f.check_box :admin
+  .field.mb-3
+    = f.label :password, class: "form-label"
+    = f.password_field :password, class: "form-control"
+  .field.mb-3
+    = f.label :password_confirmation, class: "form-label"
+    = f.password_field :password_confirmation, class: "form-control"
+  .actions.mb-3
+    = f.submit 'Save'

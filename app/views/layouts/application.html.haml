@@ -1,0 +1,28 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title PayWithMe
+    %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag "application", "data-turbo-track": "reload"
+    = javascript_importmap_tags
+  %body
+    .container.pt-3
+      %h5{style: 'color: green'}
+        PayWithMe
+        %span.font-monospace= '🍀'
+      .card
+        .card-body{style: 'overflow: scroll'}
+          - flash.each do |key, message|
+            .alert.alert-dismissible.fade.show{class: flash_class(key), role: 'alert'}
+              = message
+              %button.btn-close{type: 'button', 'data-bs-dismiss': 'alert', 'aria-label': 'Close'}
+
+          = yield
+      %p.text-center.pt-3.justify-content-center
+        PayWithMe #{'© 2023'}
+      - if current_merchant
+        .text-center.justify-content-center.pb-3
+          = button_to "Log out", destroy_merchant_session_path, method: :delete, class: 'btn btn-primary'

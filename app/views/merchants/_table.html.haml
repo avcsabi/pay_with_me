@@ -1,0 +1,27 @@
+= will_paginate @merchants
+%table.table{style: 'table-layout: fixed; width: 100%;'}
+  %thead
+    %tr
+      %th Name
+      %th Description
+      %th Email
+      %th Admin?
+      %th Created at
+      %th
+      %th
+      %th
+      %th
+
+  %tbody{style: 'font-size: 0.7rem;'}
+    - @merchants.each do |merchant|
+      %tr
+        %td= merchant.name
+        %td= merchant.description
+        %td= merchant.email
+        %td= merchant.admin? ? 'Admin' : nil
+        %td= merchant.created_at
+        %td= link_to 'Transactions', merchant_transactions_path(merchant)
+        %td= link_to 'Show', merchant
+        %td= link_to 'Edit', edit_merchant_path(merchant)
+        %td= link_to 'Delete', merchant, method: :delete, data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' }
+= will_paginate @merchants

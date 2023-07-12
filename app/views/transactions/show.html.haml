@@ -1,0 +1,39 @@
+%p#notice= notice
+%h2 Transaction
+%hr
+%p
+  %b Type:
+  = @transaction.type
+%p
+  %b UUID:
+  = @transaction.uuid
+%p
+  %b Amount:
+  = @transaction.amount
+%p
+  %b Status:
+  = @transaction.status
+%p
+  %b Merchant:
+  = link_to @transaction.merchant.name_and_email, @transaction.merchant
+%p
+  %b Customer email:
+  = @transaction.customer_email
+%p
+  %b Customer phone:
+  = @transaction.customer_phone
+%p
+  %b Notification URL:
+  = @transaction.notification_url
+%p
+  %b Referred transaction UUID:
+  - if @transaction.parent_transaction
+    = link_to @transaction.parent_transaction&.uuid, transaction_path(@transaction.parent_transaction)
+%p
+  %b Created at:
+  = @transaction.created_at
+%p
+  %b Updated at:
+  = @transaction.updated_at
+
+= link_to 'Back', transactions_path

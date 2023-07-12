@@ -1,0 +1,11 @@
+%h1 Listing merchants and admins
+%hr
+%h4<
+  #{pluralize(@merchants.total_entries, 'Merchant')}
+  - if @merchants.total_pages > 1
+    %span.normal= ", #{@merchants.length} displayed"
+= render partial: 'table'
+%br
+
+= link_to 'New Merchant', new_merchant_path
+= link_to 'All Transactions', transactions_path

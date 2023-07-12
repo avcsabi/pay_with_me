@@ -1,0 +1,31 @@
+= will_paginate @transactions
+%table.table{style: 'table-layout: fixed; width: 100%;'}
+  %thead
+    %tr
+      %th Type
+      - if current_merchant.admin?
+        %th Merchant
+      %th Amount
+      %th Status
+      %th Customer email
+      %th UUID
+      %th Referred UUID
+      %th Created at
+      %th
+
+  %tbody{style: 'font-size: 0.7rem;'}
+    - @transactions.each do |transaction|
+      %tr
+        %td= transaction.type
+        - if current_merchant.admin?
+          %td= link_to transaction.merchant.name_and_email, transaction.merchant
+        %td= transaction.amount
+        %td= transaction.status
+        %td= transaction.customer_email
+        %td= transaction.uuid
+        %td
+          - if transaction.parent_transaction
+            = link_to transaction.parent_transaction.uuid, transaction_path(transaction.parent_transaction)
+        %td= transaction.created_at
+        %td= link_to 'Show', transaction_path(transaction)
+= will_paginate @transactions

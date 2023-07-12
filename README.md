@@ -1,24 +1,49 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+About the app
 
-Things you may want to cover:
+### Ruby version
+3.2.1
 
-* Ruby version
+### System dependencies
+nothing special
 
-* System dependencies
+### Configuration
 
-* Configuration
+From the root of the project run:
+```
+bundle
+```
 
-* Database creation
+### Database creation
 
-* Database initialization
+From the root of the project run:
+```
+rake db:create
+```
 
-* How to run the test suite
+### Database initialization
 
-* Services (job queues, cache servers, search engines, etc.)
+From the root of the project run:
+```
+rake db:migrate
+rake db:seed
+```
 
-* Deployment instructions
+### How to run the test suite
 
-* ...
+From the root of the project run:
+```
+rspec spec/
+```
+
+### Services (job queues, cache servers, search engines, etc.)
+
+From the root of the project in a dedicated terminal run:
+```
+rake delayed:work
+```
+
+### Deployment instructions
+only for local use
+

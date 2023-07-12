@@ -1,0 +1,27 @@
+%p#notice= notice
+%h2 Merchant
+%hr
+%p
+  %b Name:
+  = @merchant.name
+%p
+  %b Description:
+  = @merchant.description
+%p
+  %b Email:
+  = @merchant.email
+%p
+  %b Admin:
+  = @merchant.admin? ? 'Yes' : 'No'
+%p
+  %b Created at:
+  = @merchant.created_at
+%p
+  %b Updated at:
+  = @merchant.updated_at
+
+= link_to 'Transactions', merchant_transactions_path(@merchant)
+\|
+= link_to 'Edit', edit_merchant_path(@merchant)
+\|
+= link_to 'Back', merchants_path
