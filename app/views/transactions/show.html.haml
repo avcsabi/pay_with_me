@@ -10,6 +10,14 @@
 %p
   %b Amount:
   = @transaction.amount
+- if @transaction.is_a?(AuthorizeTransaction)
+  %p
+    %b Total captured - refunded:
+    = @transaction.total_captured_amount
+- if @transaction.is_a?(CaptureTransaction)
+  %p
+    %b Total refunded:
+    = @transaction.total_refunded_amount
 %p
   %b Status:
   = @transaction.status

@@ -2,9 +2,11 @@
 
 # sends an HTTP POST notification to the notification_url
 class Notifier < ApplicationService
+  require 'securerandom'
+  require 'net/http'
   def initialize(notification_url:, unique_id:, amount:, status:)
     @notification_url = notification_url
-    @unique_id = unique_id  # OR if some other uuid needed then: SecureRandom.uuid
+    @unique_id = unique_id # OR if some other uuid needed then: SecureRandom.uuid
     @amount = amount
     @status = status
     super()
@@ -18,6 +20,6 @@ class Notifier < ApplicationService
     res = Net::HTTP.post(uri, encoded_form, header)
     raise "Error sending notification (status: #{res.class.name} code: #{res.code})" unless res.is_a?(Net::HTTPSuccess)
 
-    puts "Notification response for uuid #{@unique_id}:\n#{res.body}"
+    # Debug: puts "Notification response for uuid #{@unique_id}:\n#{res.body}"
   end
 end

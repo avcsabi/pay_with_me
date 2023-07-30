@@ -7,9 +7,10 @@ class CaptureTransaction < Transaction
   PARENT_TRANSITIONS_TO = 'captured'
   include Transitioning
 
-  validates_presence_of :amount, :parent_transaction
-  validates_numericality_of :amount, greater_than: 0
-  validate :check_parent_transaction
+  validates :amount, :parent_transaction, presence: true
+  validates :amount, numericality: { greater_than: 0 }
+  validates :parent_transaction, class_is: [AuthorizeTransaction], status_is: %w[approved captured]
+  validate :check_captured_amount
 
   before_validation :set_default_status
   after_create :transition_parent
@@ -25,17 +26,9 @@ class CaptureTransaction < Transaction
 
   private
 
-  def check_parent_transaction
-    # Check parent transaction type
-    unless parent_transaction.is_a?(AuthorizeTransaction)
-      errors.add :base, :invalid, message: 'Parent transaction must be an AuthorizeTransaction'
-      return
-    end
-    # Check parent transaction status
-    unless parent_transaction.approved? || parent_transaction.captured?
-      errors.add :base, :invalid, message: 'Parent transaction must be approved or captured'
-      return
-    end
+  def check_captured_amount
+    return unless parent_transaction
+
     # Check total amount
     total_captured_amount = parent_transaction.total_captured_amount
     return unless total_captured_amount + amount > parent_transaction.amount

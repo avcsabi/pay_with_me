@@ -1,0 +1,21 @@
+require:
+  - rubocop-rspec
+  - rubocop-rails
+
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'db/schema.rb'
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/**/*'
+
+Metrics/AbcSize:
+  CountRepeatedAttributes: false
+
+RSpec/ExampleLength:
+  CountAsOne: ['array', 'heredoc', 'hash']

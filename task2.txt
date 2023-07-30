@@ -1,0 +1,33 @@
+1. Slim down big methods.
+    - file app/controllers/api/transactions_controller.rb:
+        - method: create - most code moved to model
+    - file: app/controllers/merchants_controller.rb
+        - method: destroy: better logic, avoid also destroying from console or other sources
+     - models and all other places where rubocop warned of too many lines are slimmed
+     - added rubocop-rails and all cops pass
+2. Avoid multiple if/else and unless structures, extract into smaller methods, etc.
+    - part of slimming down and controller rework
+    - grouped model validations extracted to individual validators
+3. Rework controllers.
+    - see slim down /1
+4. Extend validations.
+    - grouped model validations extracted to individual validators
+    - if by extend you mean a custom ActiveModel::EachValidator then I added 2 of those in app/validators
+        and used them in transaction models
+5. Use linters to format the code.
+    - added .rubocop.yml, all code passes all cops
+    - latest RubyMine ruby checks pass except completely generated files like schema, bin/*
+    - added rubocop-rails and all cops pass
+    - added rubocop-rspec and all cops pass
+6. Slim down test examples.
+    - added rubocop-rspec, enforces 5 lines and single expectation and all cops pass
+7. Use shared examples/shared context.
+    - added where applicable
+8. Avoid fetching all transactions.
+    - only the non-API TransactionsController loads transactions and there .paginate will limit the nb of transactions
+9. - added cancancan/abilities/access control for better security
+
+We are extending the deadline of 01.08.2023.
+
+Regards,
+Milko Mihailov

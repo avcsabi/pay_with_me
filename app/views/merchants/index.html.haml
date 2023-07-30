@@ -7,5 +7,6 @@
 = render partial: 'table'
 %br
 
-= link_to 'New Merchant', new_merchant_path
-= link_to 'All Transactions', transactions_path
+- if can? :manage, Merchant
+  = link_to 'New Merchant', new_merchant_path
+  = link_to 'All Transactions', transactions_path

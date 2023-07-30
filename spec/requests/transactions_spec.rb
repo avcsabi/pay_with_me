@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe '/transactions', type: :request do
-  before(:each) do
+  before do
     login_as FactoryBot.create(:admin)
   end
 

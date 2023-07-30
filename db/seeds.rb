@@ -22,13 +22,13 @@ merchant4 = Merchant.create!(name: 'Dedeman', description: 'Good store of two br
                              password_confirmation: "Dedeman's secret")
 merchant1.transactions.create!(type: 'AuthorizeTransaction', uuid: SecureRandom.uuid,
                                amount: 1000, status: 'declined', customer_email: 'some_client@gmail.com',
-                               notification_url: 'http://localhost:3000/api/echo')
+                               notification_url: 'http://localhost:3000/api/notification_to_file')
 merchant2.transactions.create!(type: 'AuthorizeTransaction', uuid: SecureRandom.uuid,
                                amount: 5000, status: 'approved', customer_email: 'some_client2@gmail.com',
-                               notification_url: 'http://localhost:3000/api/echo')
+                               notification_url: 'http://localhost:3000/api/notification_to_file')
 merchant3.transactions.create!(type: 'AuthorizeTransaction', uuid: SecureRandom.uuid,
                                amount: 10_000, status: 'approved', customer_email: 'some_client3@gmail.com',
-                               notification_url: 'http://localhost:3000/api/echo')
+                               notification_url: 'http://localhost:3000/api/notification_to_file')
 merchant4.transactions.create!(type: 'AuthorizeTransaction', uuid: SecureRandom.uuid,
                                amount: 20_000, status: 'approved', customer_email: 'some_company@gmail.com',
-                               notification_url: 'http://localhost:3000/api/echo')
+                               notification_url: 'http://localhost:3000/api/notification_to_file')

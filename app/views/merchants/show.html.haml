@@ -1,4 +1,3 @@
-%p#notice= notice
 %h2 Merchant
 %hr
 %p
@@ -21,7 +20,8 @@
   = @merchant.updated_at
 
 = link_to 'Transactions', merchant_transactions_path(@merchant)
-\|
-= link_to 'Edit', edit_merchant_path(@merchant)
+- if can? :manage, Merchant
+  \|
+  = link_to 'Edit', edit_merchant_path(@merchant)
 \|
 = link_to 'Back', merchants_path

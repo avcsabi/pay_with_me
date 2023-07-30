@@ -9,12 +9,13 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 module PayWithMe
+  # This app
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
-    config.eager_load_paths << "#{Rails.root}/lib"
-    config.autoload_paths << "#{Rails.root}/lib"
+    config.eager_load_paths << Rails.root.join('lib')
+    config.autoload_paths << Rails.root.join('lib')
     config.active_job.queue_adapter = :delayed
     # Configuration for the application, engines, and railties goes here.
     #
@@ -23,5 +24,7 @@ module PayWithMe
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.responders.error_status = :unprocessable_entity
+    config.responders.redirect_status = :see_other
   end
 end

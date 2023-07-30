@@ -80,6 +80,7 @@ gem 'devise', '~> 4.9'
 # gem 'slim'
 # gem 'slim-rails'
 gem 'bootstrap', '~> 5.3.0.alpha3'
+gem 'cancancan'
 gem 'delayed'
 gem 'haml'
 gem 'haml-rails'
@@ -87,5 +88,7 @@ gem 'html2haml'
 gem 'jquery-rails'
 gem 'jwt'
 gem 'rubocop', '~> 1.54', require: false
+gem 'rubocop-rails', require: false
+gem 'rubocop-rspec', require: false
 gem 'shoulda-matchers', '~> 5.0'
 gem 'will_paginate', '~> 3.3'

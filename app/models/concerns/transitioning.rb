@@ -9,7 +9,7 @@ module Transitioning
     attr_accessor :visible_to
 
     def transition_parent
-      return if parent_transaction.nil?
+      return if parent_transaction.nil? || !approved?
 
       parent_transaction.status = self.class::PARENT_TRANSITIONS_TO
       parent_transaction.save validate: false

@@ -7,27 +7,20 @@ class RefundTransaction < Transaction
   PARENT_TRANSITIONS_TO = 'refunded'
   include Transitioning
 
-  validates_presence_of :amount
-  validates_numericality_of :amount, greater_than: 0
-  validate :check_parent_transaction
+  validates :amount, :parent_transaction, presence: true
+  validates :amount, numericality: { greater_than: 0 }
+  validates :parent_transaction, class_is: [CaptureTransaction], status_is: %w[approved refunded]
+  validate :check_refunded_amount
 
   before_validation :set_default_status
   after_create :transition_parent
 
   private
 
-  def check_parent_transaction
-    # Check parent transaction type
-    unless parent_transaction.is_a?(CaptureTransaction)
-      errors.add :base, :invalid, message: 'Parent transaction must be a CaptureTransaction'
-      return
-    end
-    # Check parent transaction status
-    unless parent_transaction.approved? || parent_transaction.refunded?
-      errors.add :base, :invalid, message: 'Parent transaction must be approved or refunded'
-      return
-    end
-    # Check total amount
+  def check_refunded_amount
+    return unless parent_transaction
+
+    # Check total refunded amount
     total_refunded_amount = parent_transaction.total_refunded_amount
     return unless total_refunded_amount + amount > parent_transaction.amount
 

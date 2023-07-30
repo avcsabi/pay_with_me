@@ -13,12 +13,11 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     # Merchant
-    post 'get_jwt_token', to: 'merchants#get_jwt_token'
+    post 'get_jwt_token', to: 'merchants#jwt_token'
 
     # Transactions
-    get 'transactions/authorize_transaction_count', to: 'transactions#authorize_transaction_count'
     post 'transactions/create', to: 'transactions#create'
-    post 'transactions/echo', to: 'transactions#echo'
-    post 'echo', to: 'transactions#echo'
+    post 'transactions/notification_to_file', to: 'transactions#notification_to_file'
+    post 'notification_to_file', to: 'transactions#notification_to_file'
   end
 end

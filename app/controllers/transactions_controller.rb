@@ -3,21 +3,19 @@
 # Display transactions
 class TransactionsController < ApplicationController
   before_action :authenticate_merchant!
+  load_and_authorize_resource
 
   # GET /transactions or /transactions.json
   def index
-    @transactions = Transaction.all.order(created_at: :desc).preload(:merchant, :transactions, :parent_transaction)
-    # admins can see all transactions, merchants their own only
-    unless current_merchant.admin?
-      @merchant = current_merchant
-      @transactions = @transactions.where(merchant_id: @merchant.id)
-    end
+    # Admins can see all transactions, merchants their own only
+    @transactions = Transaction.filter_non_admin(current_merchant).sort_and_preload
+    @merchant = current_merchant unless current_merchant.admin?
     if params[:merchant_id].present?
-      @merchant = Merchant.find_by(id: params[:merchant_id])
-      if @merchant
-        @transactions = @transactions.where(merchant_id: @merchant.id)
-      end
+      # Admins can filter transactions to a certain merchant. For non-admin this will have no effect
+      @merchant = Merchant.find(params[:merchant_id])
+      @transactions = @transactions.where(merchant_id: @merchant)
     end
+    # Will load only a page of 50 transactions, not all
     @transactions = @transactions.paginate(page: params[:page], per_page: 50)
   end
 

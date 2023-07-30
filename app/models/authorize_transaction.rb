@@ -3,8 +3,8 @@
 # AuthorizeTransaction has amount and notification_url, used
 # to hold customer's amount
 class AuthorizeTransaction < Transaction
-  validates_presence_of :amount, :notification_url
-  validates_numericality_of :amount, greater_than: 0
+  validates :amount, :notification_url, presence: true
+  validates :amount, numericality: { greater_than: 0 }
   validate :parent_transaction_blank
 
   before_validation :set_default_status

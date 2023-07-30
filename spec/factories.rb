@@ -9,7 +9,7 @@ FactoryBot.define do
     password { Faker::Internet.password }
   end
 
-  factory :merchant_inactive, class: Merchant do
+  factory :merchant_inactive, class: 'Merchant' do
     name { 'Inactive merchant' }
     description { 'Inactive merchant description' }
     email { Faker::Internet.email }
@@ -18,7 +18,7 @@ FactoryBot.define do
     status { 'inactive' }
   end
 
-  factory :admin, class: Merchant do
+  factory :admin, class: 'Merchant' do
     name { 'MyAdmin' }
     description { 'MyAdmin' }
     email { Faker::Internet.email }

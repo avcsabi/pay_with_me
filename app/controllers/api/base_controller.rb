@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  # Base controller for API classes
+  # Base controller for API classes, for authentication and to have a current_merchant
   class BaseController < ActionController::API
     include ActionController::MimeResponds
 
@@ -26,11 +26,11 @@ module Api
       rescue JWT::ExpiredSignature, JWT::VerificationError, JWT::DecodeError
         return render_unauthorized
       end
-      merchant_id = @jwt_payload['id'] rescue nil
+      merchant_id = @jwt_payload.is_a?(Hash) ? @jwt_payload['id'] : nil
       @current_merchant = merchant_id && Merchant.find_by(id: merchant_id)
       return render_unauthorized unless @current_merchant
 
-      render_unauthorized unless @current_merchant.is_active?
+      render_unauthorized unless @current_merchant.active?
     end
 
     private

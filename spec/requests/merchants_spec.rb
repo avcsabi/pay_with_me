@@ -15,14 +15,14 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe '/merchants', type: :request do
-  before(:each) do
+  before do
     login_as FactoryBot.create(:admin)
   end
 
   # This should return the minimal set of attributes required to create a valid
   # Merchant. As you add validations to Merchant, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
+  let(:valid_attributes) do
     {
       name: 'Active Merchant',
       description: 'Active Merchant description',
@@ -31,13 +31,13 @@ RSpec.describe '/merchants', type: :request do
       password: 'big secret',
       password_confirmation: 'big secret'
     }
-  }
+  end
 
-  let(:invalid_attributes) {
+  let(:invalid_attributes) do
     {
       name: nil
     }
-  }
+  end
 
   describe 'GET /index' do
     it 'renders a successful response' do
@@ -73,9 +73,9 @@ RSpec.describe '/merchants', type: :request do
   describe 'POST /create' do
     context 'with valid parameters' do
       it 'creates a new Merchant' do
-        expect {
+        expect do
           post merchants_url, params: { merchant: valid_attributes }
-        }.to change(Merchant, :count).by(1)
+        end.to change(Merchant, :count).by(1)
       end
 
       it 'redirects to the created merchant' do
@@ -86,9 +86,9 @@ RSpec.describe '/merchants', type: :request do
 
     context 'with invalid parameters' do
       it 'does not create a new Merchant' do
-        expect {
+        expect do
           post merchants_url, params: { merchant: invalid_attributes }
-        }.to change(Merchant, :count).by(0)
+        end.to change(Merchant, :count).by(0)
       end
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
@@ -100,7 +100,7 @@ RSpec.describe '/merchants', type: :request do
 
   describe 'PATCH /update' do
     context 'with valid parameters' do
-      let(:new_attributes) {
+      let(:new_attributes) do
         {
           name: 'Active Merchant Updated',
           description: 'Active Merchant description Updated',
@@ -109,14 +109,14 @@ RSpec.describe '/merchants', type: :request do
           password: 'big secret',
           password_confirmation: 'big secret'
         }
-      }
+      end
 
       it 'updates the requested merchant' do
         merchant = Merchant.create! valid_attributes
         patch merchant_url(merchant), params: { merchant: new_attributes }
         merchant.reload
-        expect(merchant.name).to eq('Active Merchant Updated')
-        expect(merchant.description).to eq('Active Merchant description Updated')
+        expect([merchant.name, merchant.description]).to eq(['Active Merchant Updated',
+                                                             'Active Merchant description Updated'])
       end
 
       it 'redirects to the merchant' do

@@ -3,25 +3,17 @@
 # A background job must be enqueued for sending an HTTP POST
 # notification to the notification_url as soon as the transactions processed
 class NotificationJob < ApplicationJob
-  require 'securerandom'
-  require 'net/http'
-
   def perform(*args)
     options = args.last || {}
-    transaction_id = options[:transaction_id]
-    raise ArgumentError.new('transaction_id is missing') if transaction_id.blank?
-
-    transaction = AuthorizeTransaction.find_by(id: transaction_id)
-    raise ArgumentError.new("AuthorizeTransaction with ID #{transaction_id} is missing") unless transaction
+    transaction_id = options[:transaction_id].presence
+    transaction = transaction_id && AuthorizeTransaction.find_by(id: transaction_id)
+    raise ArgumentError, 'invalid transaction_id' unless transaction
 
     unless transaction.approved? || transaction.declined?
-      raise ArgumentError.new("AuthorizeTransaction with ID #{transaction_id} is not approved or declined")
+      raise ArgumentError, "AuthorizeTransaction with ID #{transaction_id} is not approved or declined"
     end
 
-    ntf = Notifier.new(notification_url: transaction.notification_url,
-                       unique_id: transaction.uuid,
-                       amount: transaction.amount,
-                       status: transaction.status)
-    ntf.call
+    Notifier.new(notification_url: transaction.notification_url,
+                 unique_id: transaction.uuid, amount: transaction.amount, status: transaction.status).call
   end
 end
