@@ -43,5 +43,11 @@
 %p
   %b Updated at:
   = @transaction.updated_at
+- related_transactions = @transaction.related_transactions
+- if related_transactions.present?
+  %p
+    %br
+    %b Related transactions:
+    = render partial: 'table', locals: { type_indent: true, transactions: related_transactions }
 
 = link_to 'Back', transactions_path

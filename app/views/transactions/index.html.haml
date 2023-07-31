@@ -5,7 +5,7 @@
     #{pluralize(@transactions.total_entries, 'Transaction')}
     - if @transactions.total_pages > 1
       %span.normal= ", #{@transactions.length} displayed"
-  = render partial: 'table'
+  = render partial: 'table', locals: { type_indent: false, transactions: @transactions }
 - else
   %p No transactions found
 = link_to 'Merchants', merchants_path

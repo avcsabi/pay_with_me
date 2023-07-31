@@ -4,6 +4,7 @@
 # Transaction
 class VoidTransaction < Transaction
   PARENT_TRANSITIONS_TO = 'voided'
+  HIERARCHY_LEVEL = 1
   include Transitioning
 
   validates :amount, absence: true

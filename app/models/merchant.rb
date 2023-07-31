@@ -43,4 +43,10 @@ class Merchant < ApplicationRecord
     errors.add :base, 'Merchant cannot be deleted because it has transactions'
     throw(:abort)
   end
+
+  def recent_transactions
+    recent = transactions.where('updated_at >= ?', 1.year.ago).limit(10).order(updated_at: :desc)
+                         .preload(parent_transaction: :parent_transaction)
+    recent.map { |rec| rec.root_transaction.related_transactions(include_self: true) }.flatten
+  end
 end

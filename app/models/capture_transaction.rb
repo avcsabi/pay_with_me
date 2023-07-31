@@ -5,6 +5,7 @@
 # customer's account and transferred to the merchant
 class CaptureTransaction < Transaction
   PARENT_TRANSITIONS_TO = 'captured'
+  HIERARCHY_LEVEL = 1
   include Transitioning
 
   validates :amount, :parent_transaction, presence: true

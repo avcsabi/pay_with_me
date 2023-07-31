@@ -3,6 +3,7 @@
 # Transaction: uuid , amount , status (approved, captured, voided,
 # refunded, error), customer_email , customer_phone , notification_url
 class Transaction < ApplicationRecord
+  HIERARCHY_LEVEL = 0
   STATUSES = %w[approved declined captured voided refunded error pending].freeze
   TYPES = %w[AuthorizeTransaction CaptureTransaction RefundTransaction VoidTransaction].freeze
   ALLOWED_RESPONSE_ATTRS = %w[type uuid amount status merchant_id
@@ -25,6 +26,14 @@ class Transaction < ApplicationRecord
   scope :filter_non_admin, ->(merchant) { merchant.admin? ? all : where(merchant_id: merchant) }
   scope :non_error, -> { where.not(status: 'error') }
 
+  # Below comment lines are for RubyMine inference
+  # @!method approved?
+  # @!method declined?
+  # @!method captured?
+  # @!method voided?
+  # @!method refunded?
+  # @!method error?
+  # @!method pending?
   # Demonstrate meta-programming by generating/defining similar predicate
   # methods
   STATUSES.each do |status|
@@ -68,5 +77,34 @@ class Transaction < ApplicationRecord
     attrs = attributes.slice(*ALLOWED_RESPONSE_ATTRS)
     attrs[:parent_transaction_uuid] = parent_transaction.uuid if parent_transaction
     attrs
+  end
+
+  def css_classes
+    classes = ["tr-#{self.class.to_s.sub('Transaction', '').downcase}"]
+    classes << "tr-#{status}" if %w[error declined voided].include?(status)
+    classes.join(' ')
+  end
+
+  def hierarchy_level
+    self.class::HIERARCHY_LEVEL
+  end
+
+  def root_transaction
+    root = self
+    5.times do # non recursive search, intentionally
+      break unless root.parent_transaction
+
+      root = root.parent_transaction
+    end
+    root
+  end
+
+  def related_transactions(include_self: false)
+    res = []
+    res << self if include_self
+    transactions.order(created_at: :desc).each do |tr|
+      res << tr.related_transactions(include_self: true)
+    end
+    res.flatten
   end
 end

@@ -19,6 +19,15 @@
   %b Updated at:
   = @merchant.updated_at
 
+%p
+  %br
+  %b Recent transactions:
+  - recent_transactions = @merchant.recent_transactions
+  - if recent_transactions.present?
+    = render partial: '/transactions/table', locals: { type_indent: true, transactions: recent_transactions }
+  - else
+    No recent transactions
+
 = link_to 'Transactions', merchant_transactions_path(@merchant)
 - if can? :manage, Merchant
   \|

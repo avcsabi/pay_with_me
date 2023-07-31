@@ -5,6 +5,7 @@
 # Transaction and return it to the customer
 class RefundTransaction < Transaction
   PARENT_TRANSITIONS_TO = 'refunded'
+  HIERARCHY_LEVEL = 2
   include Transitioning
 
   validates :amount, :parent_transaction, presence: true

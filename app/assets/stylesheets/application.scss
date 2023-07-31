@@ -27,3 +27,58 @@
 .field_with_errors label {
   color: #f00;
 }
+
+.tr-authorize {
+  background-color: #BDEDFF; // Robin Egg Blue
+}
+
+.tr-capture {
+  background-color: aquamarine;
+}
+
+.tr-refund {
+  background-color: #E5E4E2; // Platinum
+}
+
+.tr-void {
+  background-color: #FCDFFF; // Cotton Candy
+}
+
+.tr-error {
+  color: red;
+}
+
+.tr-declined {
+  color: mediumvioletred;
+  font-weight: bold;
+}
+
+.tr-voided {
+  color: darkgray;
+}
+
+table {
+  .indent-col {
+    width: 1.5%;
+  }
+}
+
+.bg-wh {
+  background-color: white !important;
+}
+
+.tr-table {
+  border-collapse: separate;
+  border-spacing: 0 15px;
+  table-layout: fixed;
+  width: 100%;
+  tbody {
+    font-size: 0.7rem;
+    tr, td {
+      border-bottom-width: 0 !important;
+    }
+    td, th, col {
+      width: auto;
+    }
+  }
+}
